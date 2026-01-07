@@ -92,5 +92,23 @@ LOGIN_RESPONSE=$(curl -s -X POST "$BASE_URL/auth/login" \
 echo "$LOGIN_RESPONSE" | python3 -m json.tool 2>/dev/null || echo "$LOGIN_RESPONSE"
 echo ""
 
+# 7. 로그아웃 테스트
+echo "7. 로그아웃 테스트..."
+LOGOUT_RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" -X POST "$BASE_URL/auth/logout" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json")
+
+HTTP_STATUS=$(echo "$LOGOUT_RESPONSE" | grep "HTTP_STATUS" | cut -d: -f2)
+RESPONSE_BODY=$(echo "$LOGOUT_RESPONSE" | sed '/HTTP_STATUS/d')
+
+if [ "$HTTP_STATUS" = "200" ]; then
+    echo "✅ 로그아웃 성공!"
+    echo "$RESPONSE_BODY" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE_BODY"
+else
+    echo "❌ 로그아웃 실패 (HTTP Status: $HTTP_STATUS)"
+    echo "$RESPONSE_BODY" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE_BODY"
+fi
+echo ""
+
 echo "=== API 테스트 완료 ==="
 
