@@ -1,0 +1,28 @@
+# 프로덕션 환경 설정 예제
+# 이 파일을 복사하여 application-prod.yml로 사용하세요
+# 절대 이 파일에 실제 비밀번호를 커밋하지 마세요!
+
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate # 프로덕션에서는 validate 또는 none 사용
+    show-sql: false
+
+jwt:
+  secret: ${JWT_SECRET} # 반드시 환경 변수로 설정하세요!
+  expiration: ${JWT_EXPIRATION:86400000}
+
+logging:
+  level:
+    root: INFO
+    com.counseling: INFO
+

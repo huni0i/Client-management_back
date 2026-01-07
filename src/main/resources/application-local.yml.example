@@ -1,0 +1,13 @@
+# 로컬 개발 환경 설정 예제
+# 이 파일을 복사하여 application-local.yml로 사용하세요
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/counseling_db?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: your_password_here
+
+jwt:
+  secret: your-local-jwt-secret-key-minimum-32-characters-long-for-security
+  expiration: 86400000 # 24 hours in milliseconds
+
