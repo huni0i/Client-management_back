@@ -6,6 +6,7 @@ import com.counseling.dto.AuthResponse;
 import com.counseling.dto.SignupRequest;
 import com.counseling.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,14 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody AuthRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(ApiResponse.success("로그인 성공", response));
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "현재 사용자를 로그아웃합니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<Object>> logout() {
+        authService.logout();
+        return ResponseEntity.ok(ApiResponse.success("로그아웃되었습니다.", null));
     }
 }
 

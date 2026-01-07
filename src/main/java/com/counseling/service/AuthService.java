@@ -72,5 +72,16 @@ public class AuthService {
                 .token(token)
                 .build();
     }
+
+    public void logout() {
+        // JWT는 stateless이므로 서버 측에서 별도 처리가 필요 없음
+        // 클라이언트에서 토큰을 삭제하면 됨
+        // 향후 토큰 블랙리스트 기능이 필요하면 여기에 추가 가능
+        String userId = com.counseling.security.SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            throw new BusinessException(ErrorCode.UNAUTHORIZED);
+        }
+        // 로그아웃 성공 (추가 로직이 필요하면 여기에 구현)
+    }
 }
 
